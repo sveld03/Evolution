@@ -11,16 +11,24 @@ class Plant (object):
 
     #code to initialize a plant by interacting with user.
     def initializePlant():
-        print ("""Welcome to our game! You are going to make a plant. Each plant has four attributes:
+        print (""" Each plant has four attributes:
         "heat resistance, cold resistance, disease resistance, and strength. Before selecting your values, 
         remember, they must all add up to 10""")
         answerHeat = input("what number heat resistance do you you want?")
         answerCold = input("what number cold resistance do you want?")
         answerDisease = input("what number disease resistance do you want?")
         answerStrength = input("what number strength do you want?")
-        plant1 = Plant(answerHeat, answerCold, answerDisease, answerStrength)
-        print ("Here are the qualities of your plant") 
-        print ("HR:" + plant1.heatResistance + " CR:" + plant1.coldResistance + " DR:" + plant1.diseaseResistance + " Str:" + plant1.strength)
+        #checks that each plant's attibutes adds up to ten
+        if (int(answerHeat) + int(answerCold) + int(answerDisease) + int(answerStrength) == 10):
+            plant1 = Plant(answerHeat, answerCold, answerDisease, answerStrength)
+            print ("Here are the qualities of your plant") 
+            print ("HR:" + plant1.heatResistance + " CR:" + plant1.coldResistance + " DR:" + plant1.diseaseResistance + " Str:" + plant1.strength)
+            #return plant1 so that other methods can access the data of the plant (i.e this plant gets added to field array)
+            return plant1
+        #if they don't add up to 10, you have to start over on that plant
+        else:
+            print ("your qualities do not add up to 10: try again")
+            Plant.initializePlant()
 
     #method that calculates how much hp a plant loses from each kind of attack and deducts it (Q for future: separate method to actual deduct? Helpful for user to know their risk?)
     #The environment code should handle these variables? Basically communicate to me how you will do it
@@ -40,19 +48,40 @@ class Plant (object):
 Helpful for method calls that effect all of the plants, like environmental attacks.
 It also will have the methods that create new plants after each round"""
 class Field (object):
-     numPlants = 10
-
-    #Not totally sure how - I want to pass an array of 10 plants into the field
-     def __innit__(self, plants):
+    numPlants = 10
+    #Field constructor takes an array of plants as a parameter
+    def __init__(self, plants = []):
         self.plants = plants
+
+    #prints out the stats of all the plants in your field
+    def getPlants(self):
+        print ("Here is your field:")
+        for i in range(self.numPlants):
+            print ("HR:" + self.plants[i].heatResistance + " CR:" + self.plants[i].coldResistance + " DR:" + self.plants[i].diseaseResistance + " Str:" + self.plants[i].strength)
+
+    #initializes a field by introducing what a field is and then initializing each plant
+    #The result is stored into a new Field aptly titled field (remember where to put this for game mechanics)
+    #The method ends by calling getPlants()
+    def initializeField():
+        plantArray = []
+        for i in range(10):
+            plant1 = Plant.initializePlant()
+            plantArray.append(plant1)
+        field = Field(plantArray)
+        field.getPlants()
+        
+
+        
+
 
 #End result of this section: it starts the initializeField code, which uses a loop of 10 iterations to make 10 plants with initializePlant
 def start():
-    #placeholder: it just calls initializePlant method
-    Plant.initializePlant()
+    Field.initializeField()
 
 #starts the program (this will go in another main file obviously, right now its set to a default of initializing one plant)
 start()
+
+
 
 
 
