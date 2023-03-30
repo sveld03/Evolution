@@ -69,6 +69,21 @@ class Plant (object):
             self.hitPoints -= (10 - self.coldResistance)
         else:
             self.hitPoints -= (10 - self.diseaseResistance) """
+    
+    def plantLoss(self, plant, environment):
+
+        # Run one generation: plant takes damage from the environment, then reproduces (we can add random mutations later)
+        environment = Environment.initializeEnvironment()
+        hitMarker = 0
+        if plant.heatResistance < environment.hot:
+            hitMarker += environment.hot - plant.heatResistance
+        if plant.coldResistance < environment.cold:
+            hitMarker += environment.cold - plant.coldResistance
+        if plant.diseaseResistance < environment.disease:
+            hitMarker += environment.disease - plant.diseaseResistance
+        print("Hitmarker: " + str(hitMarker))
+        plant.hitPoints -= hitMarker
+        print("Your generation 1 plant now has " + str(plant.hitPoints) + " remaining hitpoints. ")
 
 
 """Represents the ten plants that make up a field. Has its own initializeField method that makes ten plants and adds them to the field.
@@ -82,41 +97,6 @@ class Field (object):
         self.plants = plants """
 
 #End result of this section: it starts the initializeField code, which uses a loop of 10 iterations to make 10 plants with initializePlant
-def start():
-    #placeholder: it just calls initializePlant method
-    plant1a = Plant.initializePlant()
-
-    # Run one generation: plant takes damage from the environment, then reproduces (we can add random mutations later)
-    environment = Environment.initializeEnvironment()
-    hitMarker = 0
-    if plant1a.heatResistance < environment.hot:
-        hitMarker += environment.hot - plant1a.heatResistance
-    if plant1a.coldResistance < environment.cold:
-        hitMarker += environment.cold - plant1a.coldResistance
-    if plant1a.diseaseResistance < environment.disease:
-        hitMarker += environment.disease - plant1a.diseaseResistance
-    print("Hitmarker: " + str(hitMarker))
-    plant1a.hitPoints -= hitMarker
-    plant2a = plant1a
-    """THIS IS THE CODE I WAS REFERRING TO
-    traits = [trait for trait in dir(plant1a)]
-    bestTraits = []
-    for trait in traits:
-        for compare in traits:
-            if trait >= compare:
-                bestTraits.append(trait)
-    for trait in bestTraits:
-        plant2a.trait = plant1a.trait + 2/(bestTraits.len())"""
-
-    print("Your generation 1 plant now has " + str(plant1a.hitPoints) + " remaining hitpoints. "
-          "It reproduced, and you now have a generation B plant with the following stats:\n",
-          "HR: " + str(plant2a.heatResistance),
-          "CR: " + str(plant2a.coldResistance),
-          "DR: " + str(plant2a.diseaseResistance),
-          "Str: " + str(plant2a.strength))
-
-#starts the program (this will go in another main file obviously, right now its set to a default of initializing one plant)
-start()
 
 class Field (object):
     #this is all you need to change to mess with number of starting plants parameter
@@ -143,15 +123,15 @@ class Field (object):
     def initializeField():
         plantArray = []
         for i in range(Field.numberStartingPlants):
-            plant1 = Plant.initializePlant()
-            plantArray.append(plant1)
+            plant = Plant.initializePlant()
+            plantArray.append(plant)
         field = Field(plantArray)
         field.getPlants()
 
     #method that enacts plantLoss on each plant in field array
-    """def fieldLoss(self, environmentCondition):
+    def fieldLoss(self, environment):
         for i in range(Field.numPlants):
-            self.plants[i].plantLoss(environmentCondition)"""
+            self.plants[i].plantLoss(environment)
 
     #method that makes two copies of plant with highest HP and adds it to the field
     #searches through array of plants and compares HP
@@ -166,7 +146,7 @@ class Field (object):
         #finds the highest trait of strongest Plant
          strongestPlantStats = [strongestPlant.heatResistance, strongestPlant.coldResistance, strongestPlant.diseaseResistance, strongestPlant.strength]
          maxValueIndex = strongestPlantStats.index(max(strongestPlantStats))
-         #variables for traits of strongest plant to make theif else statement easier
+         #variables for traits of strongest plant to make their else statement easier
          heat = strongestPlant.heatResistance
          cold = strongestPlant.coldResistance
          disease = strongestPlant.diseaseResistance
@@ -202,6 +182,8 @@ class Field (object):
             """NOT FULLY WORKING RIGHT HERE - I SET THE RANGE WRONG INTENTIONALLY CUZ I KEPT GETTING RANGE ERRORS"""""
             if (int(self.plants[i].hitPoints) <= 0):
                 (self.plants).remove(self.plants[i])
+
+                """Is this necessary?"""
                 self.numPlants -= 1
                 #to help test and figure out whats wrong
                 self.getNumPlants()
@@ -224,7 +206,7 @@ class Field (object):
     #after processing the methods, a message saying turn has ended, as well as getPlants() and a new method getTotalHitPoints
     def processTurn(self):
         self.fieldLoss()
-        self.reproduction()
+        self.reproduceStrongestPlant()
         self.removeDeadPlants()
         print("Turn has ended")
         print("Here are your plants:" + self.getPlants())
@@ -233,31 +215,26 @@ class Field (object):
 
 #End result of this section: it starts the initializeField code, which uses a loop of 10 iterations to make 10 plants with initializePlant
 def start():
-    Field.initializeField()
+    # Field.initializeField()
+    ##reproduceStrongestPlant@TEST
+    plantOne = Plant(1, 1, 1, 7)
+    plantTwo = Plant(1, 2, 3, 4)
+    plantThree = Plant(4, 3, 2, 1)
+    plantArray = [plantOne, plantTwo, plantThree]
+    myField = Field(plantArray)
+    myField.getPlants()
+    myField.reproduceStrongestPlant()
+    myField.getPlants()
+    myField.getNumPlants()
+    #RemovePlants@TEST
+    plantOne.hitPoints = -12
+    plantTwo.hitPoints = 0
+    plantThree.hitPoints = -2
+    # myField.removeDeadPlants()
+    # myField.getPlants()
+    #totalHitPoints test
+    myField.getHitPoints()
 
 
 #starts the program (this will go in another main file obviously, right now its set to a default of initializing one plant)
-#start()
-
-
-"""Commented out tests below
-##reproduceStrongestPlant@TEST
-plantOne = Plant(1, 1, 1, 7)
-plantTwo = Plant(1, 2, 3, 4)
-plantThree = Plant(4, 3, 2, 1)
-plantArray = [plantOne, plantTwo, plantThree]
-myField = Field(plantArray)
-myField.getPlants()
-myField.reproduceStrongestPlant()
-myField.getPlants()
-myField.getNumPlants()
-#RemovePlants@TEST
-plantOne.hitPoints = -12
-plantTwo.hitPoints = 0
-plantThree.hitPoints = -2
-myField.removeDeadPlants()
-myField.getPlants()
-#totalHitPoints test
-myField.getHitPoints()
-"""
-
+start()
