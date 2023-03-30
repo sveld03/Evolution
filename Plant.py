@@ -57,18 +57,6 @@ class Plant (object):
             print ("your qualities do not add up to 10: try again")
             Plant.initializePlant()
 
-    #method that calculates how much hp a plant loses from each kind of attack and deducts it (Q for future: separate method to actual deduct? Helpful for user to know their risk?)
-    #The environment code should handle these variables? Basically communicate to me how you will do it
-    # I SET 10 AS A DEFAULT FOR ENVIRONMENT STRENGTH - NEED TO CHANGE THAT BASED ON STEVEN CODE
-    ##It is commented out becase of this
-    """""
-    def plantLoss(self, environmentCondition):
-        if environmentCondition == heatCondition:
-            self.hitPoints -= (10 - self.heatResistance)
-        elif environmentCondition == coldCondition:
-            self.hitPoints -= (10 - self.coldResistance)
-        else:
-            self.hitPoints -= (10 - self.diseaseResistance) """
     
     def plantLoss(self, plant, environment):
 
@@ -86,15 +74,6 @@ class Plant (object):
         print("Your generation 1 plant now has " + str(plant.hitPoints) + " remaining hitpoints. ")
 
 
-"""Represents the ten plants that make up a field. Has its own initializeField method that makes ten plants and adds them to the field.
-Helpful for method calls that effect all of the plants, like environmental attacks.
-It also will have the methods that create new plants after each round
-class Field (object):
-     numPlants = 10
-
-    #Not totally sure how - I want to pass an array of 10 plants into the field
-     def __innit__(self, plants):
-        self.plants = plants """
 
 #End result of this section: it starts the initializeField code, which uses a loop of 10 iterations to make 10 plants with initializePlant
 
@@ -176,12 +155,29 @@ class Field (object):
 
     #method that removes any plant with less than 0 HP from the plants array
     def removeDeadPlants(self):
+<<<<<<< HEAD
         temp = []
         for i in range (0, self.numPlants):
             if self.plants[i].hitPoints <= 0:
                 temp.append(self.plants[i])
         for deadPlant in temp:
             (self.plants).remove(deadPlant)
+=======
+        #I was having some index out of range issues here - so I did length of array instead of running number of plants
+        for i in range (self.numPlants - 2):
+            ##MUST FIX HERE - MIGHT NEED STEVEN HELP
+            """NOT FULLY WORKING RIGHT HERE - I SET THE RANGE WRONG INTENTIONALLY CUZ I KEPT GETTING RANGE ERRORS"""""
+            if (int(self.plants[i].hitPoints) <= 0):
+                (self.plants).remove(self.plants[i])
+
+                """Is this necessary?"""
+                self.numPlants -= 1
+                #to help test and figure out whats wrong
+                self.getNumPlants()
+                print (self.plants[i])
+
+
+>>>>>>> c1262d6d65952cce2cfa92ea95ec7facecd9229e
 
     
     #returns total hit points of a field
@@ -222,12 +218,11 @@ def start():
     plantOne.hitPoints = -12
     plantTwo.hitPoints = 0
     plantThree.hitPoints = -2
-    myField.removeDeadPlants()
-    myField.getNumPlants()
-    myField.getPlants()
+    # myField.removeDeadPlants()
+    # myField.getPlants()
     #totalHitPoints test
     #myField.getHitPoints()
 
 
-#starts the program (this will go in another main file obviously, right now its set to a default of initializing one plant)
+#starts the program 
 start()
