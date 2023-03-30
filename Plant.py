@@ -176,28 +176,21 @@ class Field (object):
 
     #method that removes any plant with less than 0 HP from the plants array
     def removeDeadPlants(self):
-        #I was having some index out of range issues here - so I did length of array instead of running number of plants
         temp = []
         for i in range (0, self.numPlants):
-            ##MUST FIX HERE - MIGHT NEED STEVEN HELP
-            """NOT FULLY WORKING RIGHT HERE - I SET THE RANGE WRONG INTENTIONALLY CUZ I KEPT GETTING RANGE ERRORS"""""
             if self.plants[i].hitPoints <= 0:
                 temp.append(self.plants[i])
-                print(temp)
-        print(temp)
-        print("temp size: " + str(len(temp)))
         for deadPlant in temp:
             (self.plants).remove(deadPlant)
-            print("Hi")
 
     
     #returns total hit points of a field
-    def getHitPoints(self):
+    """def getHitPoints(self):
         totalHitPoints = 0
         for i in range (self.numPlants):
             totalHitPoints += self.plants[i].hitPoints
         print (totalHitPoints)
-        return totalHitPoints
+        return totalHitPoints"""
 
 
 
@@ -233,7 +226,7 @@ def start():
     myField.getNumPlants()
     myField.getPlants()
     #totalHitPoints test
-    myField.getHitPoints()
+    #myField.getHitPoints()
 
 
 #starts the program (this will go in another main file obviously, right now its set to a default of initializing one plant)
