@@ -150,8 +150,26 @@ class Field (object):
          self.plants.append(newPlantOne)
          self.plants.append(newPlantTwo)
          self.numPlants += 2
+        
 
-    
+
+    #method that removes any plant with less than 0 HP from the plants array
+    def removeDeadPlants(self):
+        #I was having some index out of range issues here - so I did length of array instead of running number of plants
+        for i in range (self.numPlants - 2):
+            ##MUST FIX HERE - MIGHT NEED STEVEN HELP
+            """NOT FULLY WORKING RIGHT HERE - I SET THE RANGE WRONG INTENTIONALLY CUZ I KEPT GETTING RANGE ERRORS"""""
+            if (int(self.plants[i].hitPoints) <= 0):
+                (self.plants).remove(self.plants[i])
+
+                """Is this necessary?"""
+                self.numPlants -= 1
+                #to help test and figure out whats wrong
+                self.getNumPlants()
+                print (self.plants[i])
+
+
+
     
     #returns total hit points of a field
     def getHitPoints(self):
@@ -183,16 +201,16 @@ def start():
     plantThree = Plant(4, 3, 2, 1)
     plantArray = [plantOne, plantTwo, plantThree]
     myField = Field(plantArray)
-    myField.getPlants()
+    #myField.getPlants()
     myField.reproduceStrongestPlant()
-    myField.getPlants()
-    myField.getNumPlants()
+    #myField.getPlants()
+    #myField.getNumPlants()
     #RemovePlants@TEST
     plantOne.hitPoints = -12
     plantTwo.hitPoints = 0
     plantThree.hitPoints = -2
-    myField.removeDeadPlants()
-    myField.getPlants()
+    # myField.removeDeadPlants()
+    # myField.getPlants()
     #totalHitPoints test
     myField.getHitPoints()
 
