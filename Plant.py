@@ -86,11 +86,6 @@ class Plant (object):
         print("Your generation 1 plant now has " + str(plant.hitPoints) + " remaining hitpoints. ")
 
 
-"""Represents the ten plants that make up a field. Has its own initializeField method that makes ten plants and adds them to the field.
-Helpful for method calls that effect all of the plants, like environmental attacks.
-It also will have the methods that create new plants after each round
-class Field (object):
-     numPlants = 10
 
     #Not totally sure how - I want to pass an array of 10 plants into the field
      def __innit__(self, plants):
@@ -236,5 +231,5 @@ def start():
     myField.getHitPoints()
 
 
-#starts the program (this will go in another main file obviously, right now its set to a default of initializing one plant)
+#starts the program 
 start()
