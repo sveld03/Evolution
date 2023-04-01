@@ -1,0 +1,25 @@
+import Plant
+print (Plant.__file__)
+import Environment
+import Field
+
+
+"""# Field.initializeField()
+# ##reproduceStrongestPlant@TEST
+plantOne = Plant(1, 1, 1, 7)
+plantTwo = Plant(1, 2, 3, 4)
+plantThree = Plant(4, 3, 2, 1)
+plantArray = [plantOne, plantTwo, plantThree]
+myField = Field(plantArray)
+myField.getPlants()
+myField.reproduceStrongestPlant()
+myField.getPlants()
+myField.getNumPlants()
+#RemovePlants@TEST
+plantOne.hitPoints = -12
+plantTwo.hitPoints = 0
+plantThree.hitPoints = -2
+myField.removeDeadPlants()
+myField.getPlants()
+#totalHitPoints test
+#myField.getHitPoints()"""
