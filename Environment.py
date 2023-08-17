@@ -20,7 +20,8 @@ class Environment (object):
             self.hot = 0
 
     def initializeEnvironment():
-        temperature = random(50, 90)
-        disease = random(0, 10)
+        #i don't know if I missed something but the random wasn't working?
+        temperature = random.randint(50, 90)
+        disease = random.randint (0, 10)
         environment = Environment(temperature, disease)
         return environment
