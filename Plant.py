@@ -9,7 +9,7 @@ class Plant (object):
         self.coldResistance = int(coldResistance)
         self.diseaseResistance = int(diseaseResistance)
         self.strength = int(strength)
-        self.hitPoints = int(strength) + 10
+        self.hitPoints = (int(strength) * Parameters.strengthImpactOnHitpoints) + 10
 
     #code to initialize a plant by interacting with user.
     def initializePlant():
@@ -46,6 +46,18 @@ class Plant (object):
         self.hitPoints -= hitMarker
         gen = generation
         print("Your generation " + str(gen) + " plant now has " + str(self.hitPoints) + " remaining hitpoints.\n")
+
+    def improveTrait(self, trait):
+        if trait == 'h':
+            self.heatResistance += Parameters.playerImpactOnPlants
+        elif trait == 'c':
+            self.coldResistance += Parameters.playerImpactOnPlants
+        elif trait == 'd':
+            self.diseaseResistance += Parameters.playerImpactOnPlants
+        elif trait == 's':
+            self.strength += Parameters.playerImpactOnPlants
+        else:
+            return -1
 
 
 

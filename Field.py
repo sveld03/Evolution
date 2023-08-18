@@ -1,8 +1,6 @@
 from plant import *
 from environment import *
 
-from config import Parameters
-
 class Field (object):
     #this is all you need to change to mess with number of starting plants parameter
     numberStartingPlants = Parameters.fieldSize
@@ -45,12 +43,12 @@ class Field (object):
 
     #method that makes two copies of plant with highest HP and adds it to the field
     #searches through array of plants and compares HP
-    ##IMPORTANT MECHANIC: when it reproduces the two new plants, it increases their strongest trait by 2
+    ##IMPORTANT MECHANIC: when it reproduces the new plants, it increases their strongest trait by 2
     def reproduceStrongestPlant(self):
         if (self.numPlants == 0):
             print ("You cannot reproduce! Your plants are dead!\n")
         else:
-            print("Your strongest plant managed to reproduce two times. With a bonus!\n")
+            print("Your strongest plant managed to reproduce " + str(Parameters.reproductionRate) + " times. With a bonus!\n")
             strongestPlant = self.plants[0]
             #finds plant with highest HP
             for i in range(len(self.plants)):
@@ -65,26 +63,28 @@ class Field (object):
             cold = strongestPlant.coldResistance
             disease = strongestPlant.diseaseResistance
             strength = strongestPlant.strength
-            #creates two copies of strongest plant, with its highest trait +2
+            #creates copies of strongest plant, with its highest trait +2
             if (maxValueIndex == 0):
-                heat += 2
-                newPlantOne = Plant(heat, cold, disease, strength)
-                newPlantTwo = Plant(heat, cold, disease, strength)
+                heat += Parameters.reproductionImprovement
+                """newPlantOne = Plant(heat, cold, disease, strength)
+                newPlantTwo = Plant(heat, cold, disease, strength)"""
             elif (maxValueIndex == 1):
-                cold += 2
-                newPlantOne = Plant(heat, cold, disease, strength)
-                newPlantTwo = Plant(heat, cold, disease, strength)
+                cold += Parameters.reproductionImprovement
+                """newPlantOne = Plant(heat, cold, disease, strength)
+                newPlantTwo = Plant(heat, cold, disease, strength)"""
             elif (maxValueIndex == 2):
-                disease += 2
-                newPlantOne = Plant(heat, cold, disease, strength)
-                newPlantTwo = Plant(heat, cold, disease, strength)
+                disease += Parameters.reproductionImprovement
+                """newPlantOne = Plant(heat, cold, disease, strength)
+                newPlantTwo = Plant(heat, cold, disease, strength)"""
             else:
-                strength += 2
-                newPlantOne = Plant(heat, cold, disease, strength)
-                newPlantTwo = Plant(heat, cold, disease, strength)
-            self.plants.append(newPlantOne)
-            self.plants.append(newPlantTwo)
-            self.numPlants += 2
+                strength += Parameters.reproductionImprovement
+                """newPlantOne = Plant(heat, cold, disease, strength)
+                newPlantTwo = Plant(heat, cold, disease, strength)"""
+
+            for i in range(Parameters.reproductionRate):
+                newPlant = Plant(heat, cold, disease, strength)
+                self.plants.append(newPlant)
+            self.numPlants += Parameters.reproductionRate
             
 
 
@@ -97,9 +97,6 @@ class Field (object):
         for deadPlant in temp:
             (self.plants).remove(deadPlant)
         self.numPlants = len(self.plants)
-
-
-
     
     #returns total hit points of a field
     def getHitPoints(self):

@@ -23,7 +23,7 @@ def start():
     playerTwo = input("Player two, enter your name: ")
     print(playerOne + ", let's start by designing your field of plants. You will have to customize " + str(Parameters.fieldSize) + " plants.\n")
     playerOneField = Field.initializeField()
-    print(playerTwo + ", let's start by designing your field of plants. You will have to customize "  + str(Parameters.fieldSize) + "plants.\n")
+    print(playerTwo + ", let's start by designing your field of plants. You will have to customize "  + str(Parameters.fieldSize) + " plants.\n")
     playerTwoField = Field.initializeField()
     '''Trying this code will result in an infinite loop while game remains unbalanced
     while(len(field1.plants) != 0):

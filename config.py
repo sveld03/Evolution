@@ -5,7 +5,8 @@ class Parameters(object):
     playerImpactOnDisease = 1
     playerRandomEnvironmentImpact = False
     randomEnvironmentImpactScalarRange = [0, 2]
-    strengthImpactOnHitpoints = 1
+    #put a double to scale strength by
+    strengthImpactOnHitpoints = 0.5
     reproductionRate = 2
     reproductionImprovement = 2
-    playerImpactOnPlants = 0
+    playerImpactOnPlants = 1
