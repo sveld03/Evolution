@@ -1,4 +1,5 @@
 import random
+from config import Parameters
 
 # Represents the properties of the environment
 class Environment (object):
@@ -9,6 +10,7 @@ class Environment (object):
         # self.disease = random(0, 10)
         self.temperature = temperature
         self.disease = disease
+
         if self.temperature < 70:
             self.cold = (70 - self.temperature) / 2
             self.hot = 0
@@ -26,14 +28,23 @@ class Environment (object):
         environment = Environment(temperature, disease)
         return environment
     
+    def getImpactScalar():
+        #makes toggleable a random magnitude of impact of a player's actions
+        one = Parameters.randomEnvironmentImpactScalarRange[0]
+        two = Parameters.randomEnvironmentImpactScalarRange[1]
+        if (Parameters.playerRandomEnvironmentImpact):
+            return random.randint(one, two)
+        else:
+            return 1
+
     def makeHotter(self):
-        self.temperature +=  2
+        self.temperature +=  (Environment.getImpactScalar() * (Parameters.playerImpactOnTemperature))
 
     def makeColder(self):
-        self.temperature -= 2
+        self.temperature -= (Environment.getImpactScalar() * (Parameters.playerImpactOnTemperature))
     
     def increaseDisease(self):
-        self.disease += 1
+        self.disease += (Environment.getImpactScalar() * (Parameters.playerImpactOnDisease))
 
     def decreaseDisease(self):
-        self.disease -= 1
+        self.disease -= (Environment.getImpactScalar() * (Parameters.playerImpactOnDisease))

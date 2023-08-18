@@ -1,6 +1,7 @@
 from plant import *
 from environment import *
 from field import *
+from config import Parameters
 
 import sys
 import time
@@ -14,17 +15,15 @@ def print(str):
         """change to .05 for actual game"""
         time.sleep(0.01)
 
-
-
 def start():
     #Welcome message with explanation of rules
     print ("Welcome to Evolution!\nIn this game, you will be designing a field of plants and watching them evolve in response to changing environments.\nAre you ready to play? ")
     answer = input("Click any key to start:")
     playerOne = input("Player one, enter your name: ")
     playerTwo = input("Player two, enter your name: ")
-    print(playerOne + ", let's start by designing your field of plants. You will have to customize three plants.\n")
+    print(playerOne + ", let's start by designing your field of plants. You will have to customize " + str(Parameters.fieldSize) + " plants.\n")
     playerOneField = Field.initializeField()
-    print(playerTwo + ", let's start by designing your field of plants. You will have to customize three plants.\n")
+    print(playerTwo + ", let's start by designing your field of plants. You will have to customize "  + str(Parameters.fieldSize) + "plants.\n")
     playerTwoField = Field.initializeField()
     '''Trying this code will result in an infinite loop while game remains unbalanced
     while(len(field1.plants) != 0):
@@ -32,7 +31,7 @@ def start():
         field1.processTurn(environment1) '''
     environment1 = Environment.initializeEnvironment()
     i = 0
-    while (i < 3 and playerOneField.numPlants != 0 and playerTwoField.numPlants != 0):
+    while (i < Parameters.turns and playerOneField.numPlants != 0 and playerTwoField.numPlants != 0):
         generation = i + 1
         print("Turn number " + str(generation) + ": ")
         print(playerOne + ", it's your turn. ")

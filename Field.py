@@ -1,9 +1,11 @@
 from plant import *
 from environment import *
 
+from config import Parameters
+
 class Field (object):
     #this is all you need to change to mess with number of starting plants parameter
-    numberStartingPlants = 3
+    numberStartingPlants = Parameters.fieldSize
     #Field constructor takes an array of plants as a parameter
     def __init__(self, plants = []):
         self.plants = plants
