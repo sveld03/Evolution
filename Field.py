@@ -100,12 +100,11 @@ class Field (object):
 
     
     #returns total hit points of a field
-    """def getHitPoints(self):
+    def getHitPoints(self):
         totalHitPoints = 0
         for i in range (self.numPlants):
             totalHitPoints += self.plants[i].hitPoints
-        print (totalHitPoints)
-        return totalHitPoints"""
+        return totalHitPoints
 
 
 
