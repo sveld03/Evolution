@@ -25,3 +25,15 @@ class Environment (object):
         disease = random.randint (0, 10)
         environment = Environment(temperature, disease)
         return environment
+    
+    def makeHotter(self):
+        self.temperature +=  2
+
+    def makeColder(self):
+        self.temperature -= 2
+    
+    def increaseDisease(self):
+        self.disease += 1
+
+    def decreaseDisease(self):
+        self.disease -= 1

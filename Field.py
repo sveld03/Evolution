@@ -13,7 +13,7 @@ class Field (object):
     #prints out the stats of all the plants in your field
     def getPlants(self):
         print("Here is your field:\n")
-        for i in range(len(self.plants) - 1):
+        for i in range(len(self.plants)):
             print("HR:" + str(self.plants[i].heatResistance) + " CR:" + str(self.plants[i].coldResistance) + " DR:" + str(self.plants[i].diseaseResistance) + " Str:" + str(self.plants[i].strength) + " HP:" + str(self.plants[i].hitPoints)  + " \n")
 
     #gets number of plants
