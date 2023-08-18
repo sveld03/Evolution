@@ -35,10 +35,10 @@ def start():
         generation = i + 1
         print("Turn number " + str(generation) + ": ")
         print(playerOne + ", it's your turn. ")
-        playerAction(environment1)
+        playerAction(environment1, playerOneField)
         playerOneField.processTurn(environment1, generation)
         print(playerTwo + ", it's your turn. ")
-        playerAction(environment1)
+        playerAction(environment1, playerTwoField)
         playerTwoField.processTurn(environment1, generation)
         i = i + 1
         input("Click any key to go to your next turn: ")
@@ -48,11 +48,11 @@ def start():
         print(playerTwo + " wins!")
 
 #defines how a player can influence the game
-def playerAction(environment):
+def playerAction(environment, field):
     environment1 = environment
     eorf = input("Would you like to influence the environment (e) or your field of plants (f) ? ")
     if (eorf == 'e'):
-        environmentBuffType = input("Would you like to make it hotter (h), colder(h), or change the disease(d) ? ")
+        environmentBuffType = input("Would you like to make it hotter (h), colder (c), or change the disease(d) ? ")
         if (environmentBuffType == 'h'):
             environment1.makeHotter()
         elif(environmentBuffType == 'c'):
@@ -64,13 +64,21 @@ def playerAction(environment):
             elif(diseaseBuffType == 'd'):
                 environment1.decreaseDisease()
             else:
-                print("you suck at typing, try again")
-                playerAction()
+                print("you suck at typing, try again\n")
+                playerAction(environment1, field)
         else:
-            print("You suck at typing, try again")
-            playerAction()
+            print("You suck at typing, try again\n")
+            playerAction(environment1, field)
+    elif (eorf == 'f'):
+        plantNumber = int(input("What plant would you like to improve? Type the number "))
+        plantBuffType = input("Would you like to improve heat resistance (h), cold resistance (c), disease resistance(d) or strength(s) ? ")
+        check = field.plants[plantNumber - 1].improveTrait(plantBuffType)
+        if check == -1:
+            print("You suck at typing, try again\n")
+            playerAction(environment1, field)
     else:
-        plantNumber = int(input("What plant would you like to improve? Type the number"))
-        plantBuffType = input("Would you like to improve heat resistance (h), cold resistance (c), disease resistance(d) or strength(s) ?")
+        print("You suck at typing, try again\n")
+        playerAction(environment1, field)
+
 
 start()
