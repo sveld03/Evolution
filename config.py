@@ -10,3 +10,9 @@ class Parameters(object):
     reproductionRate = 2
     reproductionImprovement = 2
     playerImpactOnPlants = 1
+
+WIDTH, HEIGHT = 700, 700
+FIELDWIDTH = 6
+FIELDHEIGHT = 6
+
+FPS = 30

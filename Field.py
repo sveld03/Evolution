@@ -1,20 +1,28 @@
-from plant import *
-from environment import *
+from Plant import *
+from Environment import *
+from grid import *
 
 class Field (object):
     #this is all you need to change to mess with number of starting plants parameter
-    numberStartingPlants = Parameters.fieldSize
+    # numberStartingPlants = Parameters.fieldSize
     #Field constructor takes an array of plants as a parameter
-    def __init__(self, plants = []):
+    def __init__(self, grid, playerNumber, plants = []):
         self.plants = plants
+        self.grid = grid
+        self.player = playerNumber
         #number of plants set to the static numberStartingPlants
-        self.numPlants = int(Field.numberStartingPlants)
+        self.numPlants = Parameters.fieldSize
+
+        self.drawPlants()
 
     #prints out the stats of all the plants in your field
     def getPlants(self):
         print("Here is your field:\n")
         for i in range(len(self.plants)):
-            print("HR:" + str(self.plants[i].heatResistance) + " CR:" + str(self.plants[i].coldResistance) + " DR:" + str(self.plants[i].diseaseResistance) + " Str:" + str(self.plants[i].strength) + " HP:" + str(self.plants[i].hitPoints)  + " \n")
+            plant = self.plants[i]
+            print("HR:" + str(plant.heatResistance) + " CR:" + str(plant.coldResistance) + 
+                  " DR:" + str(plant.diseaseResistance) + " Str:" + str(plant.strength) + 
+                  " HP:" + str(plant.hitPoints)  + " Coords: (" +  str(plant.x + 1) + ", " + str(plant.y + 1) + ")" + "\n")
 
     #gets number of plants
     def getNumPlants(self):
@@ -23,16 +31,17 @@ class Field (object):
     #initializes a field by introducing what a field is and then initializing each plant
     #The result is stored into a new Field aptly titled field (remember where to put this for game mechanics)
     #The method ends by calling getPlants()
-    def initializeField():
+    def initializeField(grid, playerNumber):
         print("Each plant has four attributes: heat resistance, cold resistance, disease resistance, and strength.\nBefore selecting your values, remember, they must all add up to 10\n")
         plantArray = []
-        for i in range(Field.numberStartingPlants):
+        for i in range(Parameters.fieldSize):
             placeholder = str(i + 1)
             print("Initializing plant #" + placeholder + ": ")
-            plant = Plant.initializePlant()
+            plant = Plant.initializePlant(playerNumber)
             plantArray.append(plant)
-        field = Field(plantArray)
+        field = Field(grid, playerNumber, plantArray)
         field.getPlants()
+        # field.drawPlants()
         return field
 
     #method that enacts plantLoss on each plant in field array
@@ -81,12 +90,28 @@ class Field (object):
                 """newPlantOne = Plant(heat, cold, disease, strength)
                 newPlantTwo = Plant(heat, cold, disease, strength)"""
 
-            for i in range(Parameters.reproductionRate):
-                newPlant = Plant(heat, cold, disease, strength)
-                self.plants.append(newPlant)
-            self.numPlants += Parameters.reproductionRate
-            
+            # Find free spot on grid next to parent; if no free spot, then do not reproduce
+            free_spots = []
+            x = strongestPlant.x
+            y = strongestPlant.y
+            if x < FIELDWIDTH - 1 and self.grid.plant_list[x + 1][y] == 0:
+                free_spots.append([x + 1, y])
+            if x > 0 and self.grid.plant_list[x - 1][y] == 0:
+                free_spots.append([x - 1, y])
+            if y < FIELDHEIGHT - 1 and self.grid.plant_list[x][y + 1] == 0:
+                free_spots.append([x, y + 1])
+            if y > 0 and self.grid.plant_list[x][y - 1] == 0:
+                free_spots.append([x, y - 1])
 
+            for i in range(Parameters.reproductionRate):
+                if len(free_spots) > 0:
+                    x = free_spots[-1][0]
+                    y = free_spots[-1][1]
+                    free_spots.pop()
+
+                    newPlant = Plant(heat, cold, disease, strength, x, y)
+                    self.plants.append(newPlant)
+                    self.numPlants += 1
 
     #method that removes any plant with less than 0 HP from the plants array
     def removeDeadPlants(self):
@@ -95,6 +120,9 @@ class Field (object):
             if self.plants[i].hitPoints <= 0:
                 temp.append(self.plants[i])
         for deadPlant in temp:
+            x = deadPlant.x
+            y = deadPlant.y
+            self.grid.plant_list[x][y] = 0
             (self.plants).remove(deadPlant)
         self.numPlants = len(self.plants)
     
@@ -117,3 +145,16 @@ class Field (object):
         #print("Here are your plants:")
         print(str(self.getPlants()))
         #print("The total field's hit points are: " + self.getHitPoints())
+        self.drawPlants()
+
+    def drawPlants(self):
+        for plant in self.plants:
+            x = plant.x * BLOCKSIZE
+            y = plant.y * BLOCKSIZE
+            if self.player == 1 and self.grid.plant_list[plant.x][plant.y] == 0:
+                self.grid.WIN.blit(self.grid.PLANT1, (x, y))
+                self.grid.plant_list[plant.x][plant.y] = 1
+            elif self.player == 2 and self.grid.plant_list[plant.x][plant.y] == 0:
+                self.grid.WIN.blit(self.grid.PLANT2, (x, y))
+                self.grid.plant_list[plant.x][plant.y] = 2
+        pygame.display.update()
